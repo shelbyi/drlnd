@@ -1,0 +1,10 @@
+.idea/
+drlnd.iml
+
+*.log
+
+project1-banana-collector/.ipynb_checkpoints/
+project1-banana-collector/Banana_Linux/
+project1-banana-collector/Banana_Linux_NoVis/
+project1-banana-collector/__pycache__/
+
