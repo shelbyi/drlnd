@@ -66,8 +66,57 @@ Also, the prioritized experience replay is a naiv implementation that does not f
 
 Implement [dueling DQN](https://arxiv.org/abs/1511.06581) as a further enhancement.
 
+## Project 2: Reacher
+### Implementation
+The reacher project consists of 
+* main notebook [reacher](./project2-reacher/reacher.ipynb): it provides some information about the environment and runs the DDPG algorithm against the headless Unity Environment of reacher. It makes use of the python classes Agent ([ddpg_agent.py](project2-reacher/modules/ddpg_agent.py)), Actor & Critic ([model.py](project2-reacher/modules/model.py)) and ReplayBuffer ([replaybuffer.py](project2-reacher/modules/replaybuffer.py)).
+* play notebook [reacher-play](./project2-reacher/reacher-play.ipynb): this notebook is reading the Actor & Critic networks that were created and is using the visual Unit Environment of reacher. You will see, how the agent performs with the read networks.
+* class Agent ([ddpg_agent.py](project2-reacher/modules/ddpg_agent.py)): the **Agent** class is responsible for interacting with the environment, training the Actor & Critic network models, storing the replay buffer and helps to save the network models.
+* class Actor & Critic ([model.py](project2-recaher/modules/model.py)): the **Actor** & **Critic** classes help to create an instance of the Actor & Critic model networks.
+* class ReplayBuffer ([replaybuffer.py](project1-banana-collector/modules/replaybuffer.py)): the **ReplayBuffer** class is responsible to keep track of the latest N experiences.
 
+### Learning Algorithm
+The main notebook is running the environment and the [DDPG](https://arxiv.org/abs/1509.02971) agent is learning to solve the task.
 
+To solve the task, following parameters for defining the agent, the Actor & Critic approach and the replay buffer, were used.
 
+Parameters for agent:
+* UPDATE_EVERY = 5
+* GAMMA = 0.99
+* TAU = 1e-3
+
+General parameter for learning the networks:
+* BATCH_SIZE = 128
+* input layer with 33 nodes (Actor & Critic network)
+* output layer with four nodes (Actor & Critic network)
+
+Parameters/architecture for Actor network:
+* fc1_units = 128
+* fc2_units = 64
+* LEARNING_RATE = 0.001
+* two hidden layer with RELU activation functions and 128 (fc1_units) or 64 (fc2_units)  nodes
+
+Parameters/architecture for Critic network:
+* fc1_units = 256
+* fc2_units = 128
+* LEARNING_RATE = 0.0001
+* WEIGHT_DECAY_CRITIC = 0.00001
+* two hidden layer with RELU activation functions and 256 (fc1_units) or 128 (fc2_units)  nodes
+
+Parameters for replay buffer:
+* REPLAY_BUFFER_SIZE = int(1e5)
+
+### Plot of Rewards
+The agent was able to solve the task after 101 episodes with the [DDPG algorithm](https://arxiv.org/abs/1509.02971) (average score of +13 over 100 consecutive episodes):
+
+Please take a look at the respective plot of rewards:
+![DQN](./project2-reacher/img/ddpg.png)
+
+### Ideas for Future Work
+First of all, we should evaluate the model on the second version of this project, when we have to control 20 identical agents, each with its own copy of the environment.
+
+After it, a further idea would be to compare solutions of different algorithms like PPO, AC3 or D4PG.
+
+We can also try to transfer the algorithm to other problems like the Crawler and see how it will perform there.
 
 

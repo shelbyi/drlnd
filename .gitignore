@@ -2,9 +2,14 @@
 drlnd.iml
 
 *.log
+*.pyc
 
 project1-banana-collector/.ipynb_checkpoints/
 project1-banana-collector/Banana_Linux/
 project1-banana-collector/Banana_Linux_NoVis/
 project1-banana-collector/__pycache__/
 
+project2-reacher/.ipynb_checkpoints/
+project2-reacher/Reacher_Linux/
+project2-reacher/Reacher_Linux_NoVis/
+project2-reacher/__pycache__/
