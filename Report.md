@@ -72,8 +72,8 @@ The reacher project consists of
 * main notebook [reacher](./project2-reacher/reacher.ipynb): it provides some information about the environment and runs the DDPG algorithm against the headless Unity Environment of reacher. It makes use of the python classes Agent ([ddpg_agent.py](project2-reacher/modules/ddpg_agent.py)), Actor & Critic ([model.py](project2-reacher/modules/model.py)) and ReplayBuffer ([replaybuffer.py](project2-reacher/modules/replaybuffer.py)).
 * play notebook [reacher-play](./project2-reacher/reacher-play.ipynb): this notebook is reading the Actor & Critic networks that were created and is using the visual Unit Environment of reacher. You will see, how the agent performs with the read networks.
 * class Agent ([ddpg_agent.py](project2-reacher/modules/ddpg_agent.py)): the **Agent** class is responsible for interacting with the environment, training the Actor & Critic network models, storing the replay buffer and helps to save the network models.
-* class Actor & Critic ([model.py](project2-recaher/modules/model.py)): the **Actor** & **Critic** classes help to create an instance of the Actor & Critic model networks.
-* class ReplayBuffer ([replaybuffer.py](project1-banana-collector/modules/replaybuffer.py)): the **ReplayBuffer** class is responsible to keep track of the latest N experiences.
+* class Actor & Critic ([model.py](project2-reacher/modules/model.py)): the **Actor** & **Critic** classes help to create an instance of the Actor & Critic model networks.
+* class ReplayBuffer ([replaybuffer.py](project2-reacher/modules/replaybuffer.py)): the **ReplayBuffer** class is responsible to keep track of the latest N experiences.
 
 ### Learning Algorithm
 The main notebook is running the environment and the [DDPG](https://arxiv.org/abs/1509.02971) agent is learning to solve the task.
@@ -119,4 +119,58 @@ After it, a further idea would be to compare solutions of different algorithms l
 
 We can also try to transfer the algorithm to other problems like the Crawler and see how it will perform there.
 
+## Project 3: Tennis
+### Implementation
+The tennis project consists of 
+* main notebook [tennis](./project3-tennis/tennis.ipynb): it provides some information about the environment and runs the adapted DDPG algorithm against the headless Unity Environment of tennis to train two agents.
+* play notebook [tennis-play](./project3-tennis/tennis-play.ipynb): this notebook is reading the Actor & Critic networks that were created for both agents and is using the visual Unit Environment of tennis. You will see, how the two agents perform with the read networks.
+* class Agent ([ddpg_agent.py](project3-tennis/modules/ddpg_agent.py)): the **Agent** class is responsible for interacting with the environment, creating n **HelperAgents** that will learn their own instance of an Actor & Critic network, and storing the replay buffer.
+* class HelperAgents ([ddpg_agent.py](project3-tennis/modules/ddpg_agent.py)): Each instance of a **HelperAgents** class has its own instance of a Actor & Critic model. All HelperAgents share a common **ReplayBuffer**, but each agents samples its own batch for training the models. Moreover, this class can save its Agent & Critic model to disk.
+* class Actor & Critic ([model.py](project3-tennis/modules/model.py)): the **Actor** & **Critic** classes help to create an instance of the Actor & Critic model networks.
+* class ReplayBuffer ([replaybuffer.py](project3-tennis/modules/replaybuffer.py)): the **ReplayBuffer** class is responsible to keep track of the latest N experiences. All **HelperAgents** share the same replay buffer experience.
 
+### Learning Algorithm
+The main notebook is running the environment and is learning both [DDPG](https://arxiv.org/abs/1509.02971) agents that share a common replay buffer to solve the task. But, each agent has its own instance of a Actor & Critic model.
+
+To solve the task, following parameters for defining the agents, the Actor & Critic approach and the replay buffer, were used.
+
+Parameters for agents:
+* UPDATE_EVERY = 3
+* GAMMA = 0.99
+* TAU = 1e-3
+
+General parameter for learning the networks:
+* BATCH_SIZE = 128
+* input layer with 8 nodes (Actor & Critic network)
+* output layer with 2 nodes (Actor & Critic network)
+
+Parameters/architecture for Actor network:
+* fc1_units = 256
+* fc2_units = 128
+* LEARNING_RATE = 1e-5
+* two hidden layer with RELU activation functions and 256 (fc1_units) or 128 (fc2_units)  nodes
+
+Parameters/architecture for Critic network:
+* fc1_units = 256
+* fc2_units = 128
+* LEARNING_RATE = 1e-4
+* WEIGHT_DECAY_CRITIC = 0.0
+* two hidden layer with RELU activation functions and 256 (fc1_units) or 128 (fc2_units)  nodes
+
+Parameters for replay buffer:
+* REPLAY_BUFFER_SIZE = int(1e5)
+
+### Plot of Rewards
+The agent was able to solve the task after 3720 episodes (average score of +0.5 over 100 consecutive episodes):
+
+Please take a look at the respective plot of rewards:
+![DQN](./project3-tennis/img/ddpg.png)
+
+### Ideas for Future Work
+The task was solved with agents that learn their own Actor & Critic model and share a common replay buffer.
+
+Future work could be done about how agents perform when they will have also their own replay buffer. Also, it would be interesting to see, what needs to be done in order to solve the task when only one agent is controlling both rackets.
+
+Another option for future work would be to train the agents to compete against each other instead of cooperating.
+
+Furthermore, doing some research in what algorithm and work has been done in the multi-agent RL environment would be interesting and implementing some of those. Also, maybe to come up with some own ideas.
